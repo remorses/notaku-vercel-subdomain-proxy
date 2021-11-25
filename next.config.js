@@ -1,12 +1,8 @@
-let TARGET_URL = process.env.TARGET_URL
+let TARGET_URL = makeUrl(process.env.TARGET_URL)
 
-if (TARGET_URL && !TARGET_URL.startsWith('http')) {
-    TARGET_URL = `https://${TARGET_URL}`
-}
-
-if (TARGET_URL && TARGET_URL.endsWith('/')) {
-    TARGET_URL = TARGET_URL.slice(0, -1)
-}
+const subPath = TARGET_URL.includes('docs-base-path.notaku.site')
+    ? 'docs'
+    : 'blog'
 
 /**  @type {import('next').NextConfig} */
 module.exports = {
@@ -14,13 +10,24 @@ module.exports = {
     async rewrites() {
         return [
             {
-                source: '/',
-                destination: `${TARGET_URL}/`,
-            },
-            {
                 source: '/:path*',
-                destination: `${TARGET_URL}/:path*`,
+                destination: `${TARGET_URL}/${subPath}/:path*`,
             },
         ]
     },
+}
+
+function makeUrl(url) {
+    if (!url) {
+        return ''
+    }
+    if (!url.startsWith('http')) {
+        url = `https://${url}`
+    }
+    const u = new URL(url)
+    url = u.origin
+    if (url.endsWith('/')) {
+        url = url.slice(0, -1)
+    }
+    return url
 }
