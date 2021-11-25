@@ -7,26 +7,23 @@ const subPath = TARGET_URL.includes('docs-base-path.notaku.site')
 /**  @type {import('next').NextConfig} */
 module.exports = {
     swcMinify: true,
-    async redirects() {
-        return [
-            {
-                source: '/',
-                destination: `/${subPath}`,
-                permanent: false,
-            },
-            // TODO ignore /docs when redirecting /:path
-            // {
-            //     source: '/:path',
-            //     destination: `/docs/:path`,
-            //     permanent: false,
-            // },
-        ]
-    },
+
     async rewrites() {
         return {
             beforeFiles: [
                 {
-                    basePath: false,
+                    source: '/',
+                    destination: `/${subPath}`,
+                },
+                {
+                    source: `/${subPath}`,
+                    destination: `${TARGET_URL}/${subPath}`,
+                },
+                {
+                    source: '/:path',
+                    destination: `${TARGET_URL}/${subPath}/:path`,
+                },
+                {
                     source: '/:path*',
                     destination: `${TARGET_URL}/:path*`,
                 },
