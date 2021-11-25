@@ -8,12 +8,14 @@ const subPath = TARGET_URL.includes('docs-base-path.notaku.site')
 module.exports = {
     swcMinify: true,
     async rewrites() {
-        return [
-            {
-                source: '/:path*',
-                destination: `${TARGET_URL}/${subPath}/:path*`,
-            },
-        ]
+        return {
+            beforeFiles: [
+                {
+                    source: '/:path*',
+                    destination: `${TARGET_URL}/${subPath}/:path*`,
+                },
+            ],
+        }
     },
 }
 
