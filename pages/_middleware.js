@@ -1,10 +1,10 @@
-const { SUBDOMAIN, TARGET, FALLBACK } = process.env
+const { SUBDOMAIN, TARGET_URL, FALLBACK_URL } = process.env
 
-if (TARGET && !TARGET.startsWith('http')) {
-    TARGET = `https://${TARGET}`
+if (TARGET_URL && !TARGET_URL.startsWith('http')) {
+    TARGET_URL = `https://${TARGET_URL}`
 }
-if (FALLBACK && !FALLBACK.startsWith('http')) {
-    FALLBACK = `https://${FALLBACK}`
+if (FALLBACK_URL && !FALLBACK_URL.startsWith('http')) {
+    FALLBACK_URL = `https://${FALLBACK_URL}`
 }
 
 export default function middleware(req) {
@@ -12,9 +12,9 @@ export default function middleware(req) {
     const { pathname } = req.nextUrl
     const subdomain = hostname.split('.')[0]
     if (subdomain === SUBDOMAIN) {
-        NextResponse.rewrite(`${TARGET}${pathname}`)
+        NextResponse.rewrite(`${TARGET_URL}${pathname}`)
     }
-    if (FALLBACK) {
-        NextResponse.rewrite(`${FALLBACK}${pathname}`)
+    if (FALLBACK_URL) {
+        NextResponse.rewrite(`${FALLBACK_URL}${pathname}`)
     }
 }
