@@ -15,11 +15,11 @@ module.exports = {
         return [
             {
                 source: '/',
-                destination: `${TARGET_URL}/:host`,
+                destination: `${TARGET_URL}/`,
             },
             {
                 source: '/:path*',
-                destination: `${TARGET_URL}/:host/:path*`,
+                destination: `${TARGET_URL}/:path*`,
             },
         ]
     },
